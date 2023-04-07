@@ -11,9 +11,17 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "sourceMap": true,
+    "noUnusedParameters": false,
+    "strictNullChecks": false,
     "baseUrl": ".",
+    "noImplicitAny": false,
     "types": [
-      "webpack-env"
+      "webpack-env",
+
+      "@wdio/mocha-framework",
+      "expect-webdriverio",
+      "webdriverio/sync",
+      "jest"
     ],
     "paths": {
       "@/*": [

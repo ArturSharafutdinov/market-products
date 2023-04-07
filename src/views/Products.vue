@@ -1,0 +1,52 @@
+<template>
+  <div class="row items-start">
+    <q-card v-for="product in products" :key="product.id" class="my-card q-ma-lg" @click="gotoProduct(product.id)">
+      <img src="https://cdn.quasar.dev/img/mountains.jpg">
+
+      <q-card-section>
+        <div class="text-h6">{{product.name}}</div>
+        <div class="text-subtitle2">{{product.description}}</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none text-green-5">
+        {{product.price}}$
+      </q-card-section>
+    </q-card>
+  </div>
+</template>
+
+<script lang="ts">
+
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+export default defineComponent({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'Products',
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+
+    const products = computed(() => store.getters.getProducts);
+
+    const gotoProduct = (productId) => {
+      router.push(`/product/${productId}`);
+    }
+
+    return {
+      products,
+      gotoProduct
+    }
+  }
+})
+
+</script>
+
+<style scoped lang="scss">
+
+.my-card {
+  width: 100%;
+  max-width: 250px;
+}
+</style>
