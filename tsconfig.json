@@ -17,11 +17,11 @@
     "noImplicitAny": false,
     "types": [
       "webpack-env",
-
       "@wdio/mocha-framework",
       "expect-webdriverio",
       "webdriverio/sync",
-      "jest"
+      "jest",
+      "systemjs"
     ],
     "paths": {
       "@/*": [

@@ -2,6 +2,7 @@ const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
     filenameHashing: false,
     configureWebpack: {
+        externals: ['@tko/market-store'],
         output: {
             libraryTarget: 'system',
             filename: "js/products.js"
