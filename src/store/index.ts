@@ -1,35 +1,47 @@
-import { createStore } from 'vuex'
-
-const createProducts = (count) => {
-  const products = [];
-  for (let i = 0; i<count;i++) {
-    products.push({
-      id: i,
-      name: `Product ${i}`,
-      description: `Description ${i}`,
-      price: Math.floor(Math.random() * 1000),
-      rating: Math.floor(Math.random() * 4 + 1)
-    })
-  }
-  return products;
-}
+import { createStore } from 'vuex';
+import axios from 'axios';
 
 export default createStore({
-  state: () => ({
-    products: createProducts(10)
-  }),
+  state: {
+    products: [],
+    currentProduct: null,
+  },
   getters: {
     getProducts(state) {
       return state.products;
     },
-    getProductById : (state) => (productId) => {
+    getProductById: (state) => (productId) => {
       return state.products.find((product) => product.id == productId);
-    }
+    },
+    getCurrentProduct(state) {
+      return state.currentProduct;
+    },
   },
   mutations: {
+    setProducts(state, products) {
+      state.products = products;
+    },
+    setCurrentProduct(state, product) {
+      state.currentProduct = product;
+    },
   },
   actions: {
+    async fetchProducts({ commit }) {
+      try {
+        const response = await axios.get('http://localhost:8080/products');
+        commit('setProducts', response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async fetchProductById({ commit }, productId) {
+      try {
+        const response = await axios.get(`http://localhost:8080/product?productId=${productId}`);
+        commit('setCurrentProduct', response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
-  modules: {
-  }
-})
+  modules: {},
+});

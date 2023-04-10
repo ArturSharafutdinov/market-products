@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-start">
+  <div class="row justify-center">
     <q-card v-for="product in products" :key="product.id" class="my-card q-ma-lg" @click="gotoProduct(product.id)">
       <img src="https://cdn.quasar.dev/img/mountains.jpg">
 
@@ -17,29 +17,41 @@
 
 <script lang="ts">
 
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Products',
-  setup() {
-    const store = useStore();
-    const router = useRouter();
+	// eslint-disable-next-line vue/multi-word-component-names
+	name: 'Products',
+	setup() {
+		const store = useStore();
+		const router = useRouter();
 
-    const products = computed(() => store.getters.getProducts);
+		const products = computed(() => {
+			return store.getters.getProducts;
+		});
 
-    const gotoProduct = (productId) => {
-      router.push(`/product/${productId}`);
-    }
+		onMounted(async () => {
+			try {
+				await store.dispatch('fetchProducts');
+			} catch (error) {
+				console.error(error);
+				// Обработка ошибок, например, показ уведомления пользователю
+			}
+		});
 
-    return {
-      products,
-      gotoProduct
-    }
-  }
-})
+		const gotoProduct = (productId) => {
+			router.push(`/product/${productId}`);
+		};
+
+		return {
+			products,
+			gotoProduct,
+		};
+	},
+});
+
 
 </script>
 
