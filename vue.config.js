@@ -19,7 +19,7 @@ module.exports = defineConfig({
     },
     devServer: {
         host : "localhost",
-        port: 8094,
+        port: 8093,
         headers: {
             "Access-Control-Allow-Origin": "*"
         }
