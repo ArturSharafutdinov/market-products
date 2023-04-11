@@ -12,7 +12,7 @@
         {{ product.price }}$
       </q-card-section>
       <q-card-actions>
-        <q-btn @click="buyProduct">Buy</q-btn>
+        <q-btn @click.stop="addProduct(product)">Buy</q-btn>
       </q-card-actions>
     </q-card>
   </div>
@@ -23,7 +23,8 @@
 import { computed, defineComponent, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import {order$} from '@tko/market-store';
+/* eslint-disable */ // @ts-ignore
+import {orderService$} from '@tko/market-store';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -35,6 +36,10 @@ export default defineComponent({
     const products = computed(() => {
       return store.getters.getProducts;
     });
+
+    const addProduct = (product) => {
+      orderService$.addProduct(product);
+    }
 
     onMounted(async () => {
       try {
@@ -49,15 +54,10 @@ export default defineComponent({
       router.push(`/product/${productId}`);
     };
 
-    const buyProduct = (product) => {
-      $order.push(product)
-    }
-
     return {
       products,
       gotoProduct,
-      buyProduct,
-      order$,
+      addProduct,
     };
   },
 });
